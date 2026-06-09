@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View (List) -->
+    <record id="view_gym_member_tree" model="ir.ui.view">
+        <field name="name">gym.member.tree</field>
+        <field name="model">gym.member</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="phone" />
+                <field name="email" />
+                <field name="user_id" />
+                <field name="city" />
+                <field name="country_id" />
+                <field name="company_id" />
+                <field name="activity_ids" widget="list_activity" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_gym_member_form" model="ir.ui.view">
+        <field name="name">gym.member.form</field>
+        <field name="model">gym.member</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="phone" />
+                            <field name="email" />
+                            <field name="user_id" />
+                        </group>
+                        <group>
+                            <field name="city" />
+                            <field name="country_id" />
+                            <field name="company_id" />
+                            <field name="active" />
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" />
+                    <field name="activity_ids" />
+                    <field name="message_ids" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_gym_member_search" model="ir.ui.view">
+        <field name="name">gym.member.search</field>
+        <field name="model">gym.member</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="phone" />
+                <field name="email" />
+                <field name="city" />
+                <field name="country_id" />
+                <separator />
+                <filter string="Archiviert" name="inactive" domain="[('active', '=', False)]" />
+                <group expand="0" string="Group By">
+                    <filter string="Negara" name="country" context="{'group_by': 'country_id'}" />
+                    <filter string="Perusahaan" name="company" context="{'group_by': 'company_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    
+    <!-- Action -->
+    <record id="action_gym_member" model="ir.actions.act_window">
+        <field name="name">Anggota Gym</field>
+        <field name="res_model">gym.member</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat data anggota gym pertama Anda
+            </p>
+        </field>
+    </record>
+
+
+</odoo> 

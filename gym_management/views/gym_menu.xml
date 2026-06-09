@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Menu Utama -->
+    <menuitem id="menu_gym_root"
+        name="Manajemen Gym"
+        sequence="10" />
+
+    <!-- Group Menu Anggota -->
+    <menuitem id="menu_gym_group"
+        name="Data Master"
+        parent="menu_gym_root"
+        sequence="10" />
+
+    <!-- Sub Menu Anggota -->
+    <menuitem id="menu_gym_member"
+        name="Anggota Gym"
+        parent="menu_gym_group"
+        action="action_gym_member"
+        sequence="10" />
+
+    <!-- Sub Menu Produk -->
+    <menuitem id="menu_gym_product"
+        name="Produk Gym"
+        parent="menu_gym_group"
+        action="action_gym_product"
+        sequence="20" />
+
+    <!-- Menu Invoices -->
+    <menuitem id="menu_gym_invoice"
+        name="Faktur"
+        parent="menu_gym_root"
+        sequence="20" />
+
+    <!-- Sub Menu Invoice List -->
+    <menuitem id="menu_gym_invoice_list"
+        name="Daftar Faktur"
+        parent="menu_gym_invoice"
+        action="action_gym_invoice"
+        sequence="10" />
+
+</odoo>

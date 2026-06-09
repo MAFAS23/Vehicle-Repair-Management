@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View untuk menampilkan daftar Produk Gym -->
+    <record id="view_gym_product_tree" model="ir.ui.view">
+        <field name="name">gym.product.tree</field>
+        <field name="model">gym.product</field>
+        <field name="arch" type="xml">
+            <tree string="Daftar Produk Gym">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View untuk detail Produk Gym -->
+    <record id="view_gym_product_form" model="ir.ui.view">
+        <field name="name">gym.product.form</field>
+        <field name="model">gym.product</field>
+        <field name="arch" type="xml">
+            <form string="Detail Produk Gym">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action untuk membuka tampilan Produk Gym dalam mode tree & form -->
+    <record id="action_gym_product" model="ir.actions.act_window">
+        <field name="name">Produk Gym</field>
+        <field name="res_model">gym.product</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_gym_product_tree" />
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Belum ada produk yang tersedia
+            </p>
+        </field>
+    </record>
+</odoo> 

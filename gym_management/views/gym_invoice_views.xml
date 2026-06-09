@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Action untuk membuka tampilan invoice -->
+    <record id="action_gym_invoice" model="ir.actions.act_window">
+        <field name="name">Invoice Gym</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="account.view_out_invoice_tree" />
+        <field name="domain">[('move_type', 'in', ['out_invoice', 'out_refund'])]</field>
+        <field name="context">{'default_move_type': 'out_invoice'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Buat faktur pertama Anda
+            </p>
+        </field>
+    </record>
+</odoo> 

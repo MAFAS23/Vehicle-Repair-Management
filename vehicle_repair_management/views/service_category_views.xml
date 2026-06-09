@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="view_service_category_tree">
+            <field name="name">service_category_tree</field>
+            <field name="model">vehicle_repair_management.service_category</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="action_service_category">
+            <field name="name">Service Category</field>
+            <field name="res_model">vehicle_repair_management.service_category</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

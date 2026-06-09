@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+        <record model="ir.ui.view" id="vehicle_repair_management.list">
+            <field name="name">vehicle_repair_management list</field>
+            <field name="model">vehicle_repair_management.vehicle_repair_management</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="plate_number"/>
+                    <field name="client_id"/>
+                    <field name="receiving_date"/>
+                    <field name="brand"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- explicit form view definition -->
+        <record model="ir.ui.view" id="vehicle_repair_management.form">
+            <field name="name">vehicle_repair_management form</field>
+            <field name="model">vehicle_repair_management.vehicle_repair_management</field>
+            <field name="arch" type="xml">
+                <form string="Service Order">
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="plate_number" class="oe_edit_only" string="Plate Number"/>
+                            <h1><field name="plate_number" placeholder="e.g. B 1234 ABC"/></h1>
+                        </div>
+                        
+                        <group>
+                            <group string="Customer">
+                                <field name="client_id"/>
+                                <field name="phone"/>
+                                <field name="email"/>
+                                <field name="unknown_issue"/>
+                            </group>
+                            <group string="Basic Information">
+                                <field name="receiving_date"/>
+                                <field name="delivery_date"/>
+                                <field name="vehicle_type"/>
+                                <field name="brand"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string="Issue">
+                                <field name="work_description"/>
+                            </group>
+                            <group string="Lainnya">
+                                <field name="service_template"/>
+                                <field name="service_team"/>
+                            </group>
+                        </group>
+                        
+                        <notebook>
+                            <page string="Vehicle Information">
+                                <group>
+                                    <group string="Data Kendaraan">
+                                        <field name="vehicle_brand"/>
+                                        <field name="model"/>
+                                        <field name="color"/>
+                                        <field name="transmission_type"/>
+                                        <field name="year_of_manufacturing"/>
+                                        <field name="warranty"/>
+                                        <field name="insurance"/>
+                                        <field name="pollution"/>
+                                        <field name="accomplished_date"/>
+                                        <field name="last_change_oil"/>
+                                        <field name="odometer_reading"/>
+                                    </group>
+                                    <group string="Bahan Bakar">
+                                        <field name="fuel_level" widget="progressbar"/>
+                                        <field name="fuel_type"/>
+                                    </group>
+                                </group>
+                                <separator string="Accessories Available In Vehicle"/>
+                                <field name="accessory_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                        <field name="quantity"/>
+                                        <field name="description"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Images">
+                                <group>
+                                    <field name="image" widget="image" class="oe_avatar"/>
+                                </group>
+                            </page>
+                        </notebook>
+                        
+                        <group>
+                            <field name="create_uid" readonly="1" string="Created By"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+        <record model="ir.actions.act_window" id="vehicle_repair_management.action_window">
+            <field name="name">Vehicle Service Work Order</field>
+            <field name="res_model">vehicle_repair_management.vehicle_repair_management</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

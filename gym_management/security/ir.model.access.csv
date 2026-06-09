@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_gym_member,access.gym.member,model_gym_member,base.group_user,1,1,1,1
+access_gym_product_temp,access.gym.product.temp,model_gym_product_temp,base.group_user,1,0,0,0
+access_gym_product,access.gym.product,model_gym_product,base.group_user,1,1,1,1

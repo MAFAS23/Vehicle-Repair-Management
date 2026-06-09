@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="view_vehicle_type_tree">
+            <field name="name">vehicle_type_tree</field>
+            <field name="model">vehicle_repair_management.vehicle_type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="action_vehicle_type">
+            <field name="name">Vehicle Types</field>
+            <field name="res_model">vehicle_repair_management.vehicle_type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

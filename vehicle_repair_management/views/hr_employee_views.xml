@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Inherited View for hr.employee (Service Mechanic) -->
+        <record id="view_employee_form_inherit_mechanic" model="ir.ui.view">
+            <field name="name">hr.employee.form.inherit.mechanic</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <!-- Menambahkan field is_mechanic di bawah field mobile_phone -->
+                <xpath expr="//field[@name='mobile_phone']" position="before">
+                    <field name="is_mechanic"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Action for Service Mechanic -->
+        <record id="action_service_mechanic" model="ir.actions.act_window">
+            <field name="name">Service Mechanic</field>
+            <field name="res_model">hr.employee</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('is_mechanic', '=', True)]</field>
+            <field name="context">{'default_is_mechanic': True}</field>
+        </record>
+    </data>
+</odoo>
