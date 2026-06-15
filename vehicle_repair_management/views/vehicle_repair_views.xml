@@ -7,10 +7,12 @@
             <field name="model">vehicle_repair_management.vehicle_repair_management</field>
             <field name="arch" type="xml">
                 <tree>
-                    <field name="plate_number"/>
+                    <field name="name"/>
+                    <field name="saved_vehicle_id"/>
                     <field name="client_id"/>
                     <field name="receiving_date"/>
-                    <field name="brand"/>
+                    <field name="brand_id"/>
+                    <field name="state" widget="badge" decoration-info="state == 'draft'" decoration-warning="state == 'under_process'" decoration-success="state == 'done'" decoration-danger="state == 'cancel'"/>
                 </tree>
             </field>
         </record>
@@ -21,10 +23,22 @@
             <field name="model">vehicle_repair_management.vehicle_repair_management</field>
             <field name="arch" type="xml">
                 <form string="Service Order">
+                    <header>
+                        <button name="action_confirm" string="Confirm Service" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                        <button name="action_under_process" string="Under Process" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'confirmed')]}"/>
+                        <button name="action_done" string="Finish Service" type="object" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'under_process')]}"/>
+                        <button name="action_cancel" string="Cancel Service" type="object" attrs="{'invisible': [('state', 'in', ('under_process', 'done', 'cancel'))]}"/>
+                        
+                        <button name="%(action_report_client_receipt)d" string="Print Client Receipt" type="action" icon="fa-print"/>
+                        <button name="%(action_report_team_receipt)d" string="Print Service Team Receipt" type="action" icon="fa-print"/>
+                        
+                        <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,under_process,done"/>
+                    </header>
                     <sheet>
                         <div class="oe_title">
-                            <label for="plate_number" class="oe_edit_only" string="Plate Number"/>
-                            <h1><field name="plate_number" placeholder="e.g. B 1234 ABC"/></h1>
+                            <h1><field name="name"/></h1>
+                            <label for="saved_vehicle_id" class="oe_edit_only" string="Plate Number"/>
+                            <h2><field name="saved_vehicle_id" placeholder="Select Saved Vehicle"/></h2>
                         </div>
                         
                         <group>
@@ -37,8 +51,8 @@
                             <group string="Basic Information">
                                 <field name="receiving_date"/>
                                 <field name="delivery_date"/>
-                                <field name="vehicle_type"/>
-                                <field name="brand"/>
+                                <field name="vehicle_type_id"/>
+                                <field name="brand_id"/>
                             </group>
                         </group>
                         <group>
@@ -46,16 +60,43 @@
                                 <field name="work_description"/>
                             </group>
                             <group string="Lainnya">
-                                <field name="service_template"/>
-                                <field name="service_team"/>
+                                <field name="service_template_id"/>
+                                <field name="service_team_id"/>
+                                <field name="team_leader_id"/>
+                                <field name="priority" widget="priority"/>
                             </group>
                         </group>
                         
                         <notebook>
+                            <page string="Worksheet">
+                                <field name="worksheet_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="mechanic_id"/>
+                                        <field name="service_id"/>
+                                        <field name="description"/>
+                                        <field name="cost_type"/>
+                                        <field name="cost"/>
+                                        <field name="uom"/>
+                                        <field name="quantity"/>
+                                        <field name="work_time" widget="float_time"/>
+                                        <field name="subtotal" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Part Used">
+                                <field name="part_line_ids">
+                                    <tree editable="bottom">
+                                        <field name="product_id"/>
+                                        <field name="description"/>
+                                        <field name="quantity"/>
+                                        <field name="unit_price"/>
+                                        <field name="subtotal" sum="Total"/>
+                                    </tree>
+                                </field>
+                            </page>
                             <page string="Vehicle Information">
                                 <group>
                                     <group string="Data Kendaraan">
-                                        <field name="vehicle_brand"/>
                                         <field name="model"/>
                                         <field name="color"/>
                                         <field name="transmission_type"/>
@@ -69,7 +110,7 @@
                                     </group>
                                     <group string="Bahan Bakar">
                                         <field name="fuel_level" widget="progressbar"/>
-                                        <field name="fuel_type"/>
+                                        <field name="fuel_type_id"/>
                                     </group>
                                 </group>
                                 <separator string="Accessories Available In Vehicle"/>
@@ -87,6 +128,17 @@
                                 </group>
                             </page>
                         </notebook>
+                        
+                        <group name="note_group" col="6" class="mt-2 mt-md-0">
+                            <group colspan="4">
+                                <field name="notes" nolabel="1" placeholder="Terms and conditions, or additional notes..."/>
+                            </group>
+                            <group class="oe_subtotal_footer oe_right" colspan="2" name="repair_totals">
+                                <field name="worksheets_expenses"/>
+                                <field name="used_part_expenses"/>
+                                <field name="estimated_repair_untaxed_expenses" class="oe_subtotal_footer_separator"/>
+                            </group>
+                        </group>
                         
                         <group>
                             <field name="create_uid" readonly="1" string="Created By"/>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="action_report_team_receipt" model="ir.actions.report">
+            <field name="name">Service Team Receipt</field>
+            <field name="model">vehicle_repair_management.vehicle_repair_management</field>
+            <field name="report_type">qweb-html</field>
+            <field name="report_name">vehicle_repair_management.report_team_receipt</field>
+            <field name="report_file">vehicle_repair_management.report_team_receipt</field>
+            <field name="print_report_name">'Team Receipt - %s' % (object.name)</field>
+            <field name="binding_model_id" ref="vehicle_repair_management.model_vehicle_repair_management_vehicle_repair_management"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <template id="report_team_receipt">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <h2>Service Team Receipt - <span t-field="doc.name"/></h2>
+                            <div class="row mt32 mb32">
+                                <div class="col-6">
+                                    <strong>Team:</strong>
+                                    <p t-field="doc.service_team_id"/>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Leader:</strong>
+                                    <p t-field="doc.team_leader_id"/>
+                                </div>
+                            </div>
+                            <h3>Work Description:</h3>
+                            <p t-field="doc.work_description"/>
+                            
+                            <h3 class="mt32">Tasks to Perform</h3>
+                            <table class="table table-sm o_main_table">
+                                <thead>
+                                    <tr>
+                                        <th>Mechanic</th>
+                                        <th>Task</th>
+                                        <th>Estimated Time</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc.worksheet_line_ids" t-as="line">
+                                        <tr>
+                                            <td><span t-field="line.mechanic_id"/></td>
+                                            <td><span t-field="line.description"/></td>
+                                            <td><span t-field="line.work_time"/></td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+    </data>
+</odoo>

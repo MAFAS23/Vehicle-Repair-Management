@@ -7,3 +7,8 @@ from . import service_category
 from . import vehicle_type
 from . import vehicle_brand
 from . import vehicle_part
+from . import service
+from . import service_team
+from . import vehicle_fuel_type
+from . import saved_vehicle
+from . import service_template

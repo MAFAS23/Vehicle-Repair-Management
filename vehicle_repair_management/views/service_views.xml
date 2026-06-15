@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_vehicle_repair_service_form" model="ir.ui.view">
+        <field name="name">vehicle_repair_management.service.form</field>
+        <field name="model">vehicle_repair_management.service</field>
+        <field name="arch" type="xml">
+            <form string="Service">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <label for="price"/>
+                            <div class="o_row">
+                                <field name="price"/> / <field name="unit" placeholder="Unit"/>
+                            </div>
+                            <field name="service_category_id" options="{'no_open': True, 'no_create': True}"/>
+                        </group>
+                        <group>
+                            <field name="cost_type"/>
+                            <field name="vehicle_type_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_vehicle_repair_service_tree" model="ir.ui.view">
+        <field name="name">vehicle_repair_management.service.tree</field>
+        <field name="model">vehicle_repair_management.service</field>
+        <field name="arch" type="xml">
+            <tree string="Services">
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="price"/>
+                <field name="service_category_id"/>
+                <field name="cost_type"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_vehicle_repair_service" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">vehicle_repair_management.service</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+</odoo>

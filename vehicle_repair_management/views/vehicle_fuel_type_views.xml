@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_vehicle_fuel_type_tree" model="ir.ui.view">
+            <field name="name">vehicle.fuel.type.tree</field>
+            <field name="model">vehicle_repair_management.vehicle_fuel_type</field>
+            <field name="arch" type="xml">
+                <tree editable="bottom">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_vehicle_fuel_type" model="ir.actions.act_window">
+            <field name="name">Vehicle Fuel Types</field>
+            <field name="res_model">vehicle_repair_management.vehicle_fuel_type</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+    </data>
+</odoo>

@@ -17,13 +17,28 @@
             </field>
         </record>
 
+        <!-- Inherited View for product.product (Product Variant) -->
+        <record id="view_product_product_form_inherit_vehicle_part" model="ir.ui.view">
+            <field name="name">product.product.form.inherit.vehicle.part</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="product.product_normal_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options']" position="inside">
+                    <span class="d-inline-block">
+                        <field name="is_vehicle_part"/>
+                        <label for="is_vehicle_part"/>
+                    </span>
+                </xpath>
+            </field>
+        </record>
+
         <!-- Action for Vehicle Parts -->
         <record id="action_vehicle_part" model="ir.actions.act_window">
             <field name="name">Vehicle Parts</field>
             <field name="res_model">product.template</field>
             <field name="view_mode">kanban,tree,form</field>
-            <field name="domain">[('is_vehicle_part', '=', True)]</field>
-            <field name="context">{'default_is_vehicle_part': True}</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
         </record>
     </data>
 </odoo>

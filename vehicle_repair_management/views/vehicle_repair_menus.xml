@@ -17,19 +17,19 @@
         <menuitem name="Vehicle" id="vehicle_repair_management.conf_vehicle" parent="vehicle_repair_management.configuration"/>
         
         <!-- Configuration -> Service Menus -->
-        <menuitem name="Services" id="menu_conf_services" parent="vehicle_repair_management.conf_service" action="vehicle_repair_management.action_window"/>
+        <menuitem name="Services" id="menu_conf_services" parent="vehicle_repair_management.conf_service" action="vehicle_repair_management.action_vehicle_repair_service"/>
         <menuitem name="Service Category" id="menu_conf_service_category" parent="vehicle_repair_management.conf_service" action="vehicle_repair_management.action_service_category"/>
-        <menuitem name="Service Teams" id="menu_conf_service_teams" parent="vehicle_repair_management.conf_service" action="vehicle_repair_management.action_window"/>
+        <menuitem name="Service Teams" id="menu_conf_service_teams" parent="vehicle_repair_management.conf_service" action="vehicle_repair_management.action_service_team"/>
         <menuitem name="Service Mechanic" id="menu_conf_service_mechanic" parent="vehicle_repair_management.conf_service" action="vehicle_repair_management.action_service_mechanic"/>
         
         <!-- Configuration -> Vehicle Menus -->
         <menuitem name="Vehicle Types" id="menu_conf_vehicle_types" parent="vehicle_repair_management.conf_vehicle" action="vehicle_repair_management.action_vehicle_type"/>
         <menuitem name="Vehicle Brands" id="menu_conf_vehicle_brands" parent="vehicle_repair_management.conf_vehicle" action="vehicle_repair_management.action_vehicle_brand"/>
-        <menuitem name="Saved Vehicle" id="menu_conf_saved_vehicle" parent="vehicle_repair_management.conf_vehicle" action="vehicle_repair_management.action_window"/>
+        <menuitem name="Saved Vehicle" id="menu_conf_saved_vehicle" parent="vehicle_repair_management.conf_vehicle" action="vehicle_repair_management.action_saved_vehicle"/>
         <menuitem name="Vehicle Parts" id="menu_conf_vehicle_parts" parent="vehicle_repair_management.conf_vehicle" action="vehicle_repair_management.action_vehicle_part"/>
-        <menuitem name="Vehicle Fuel Type" id="menu_conf_vehicle_fuel_type" parent="vehicle_repair_management.conf_vehicle" action="vehicle_repair_management.action_window"/>
+        <menuitem name="Vehicle Fuel Type" id="menu_conf_vehicle_fuel_type" parent="vehicle_repair_management.conf_vehicle" action="vehicle_repair_management.action_vehicle_fuel_type"/>
         
         <!-- Configuration -> Service Templates -->
-        <menuitem name="Service Templates" id="menu_conf_service_templates" parent="vehicle_repair_management.configuration" action="vehicle_repair_management.action_window"/>
+        <menuitem name="Service Templates" id="menu_conf_service_templates" parent="vehicle_repair_management.configuration" action="vehicle_repair_management.action_service_template"/>
     </data>
 </odoo>
