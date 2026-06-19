@@ -148,11 +148,57 @@
             </field>
         </record>
 
+        <!-- explicit kanban view definition -->
+        <record model="ir.ui.view" id="vehicle_repair_management.kanban">
+            <field name="name">vehicle_repair_management kanban</field>
+            <field name="model">vehicle_repair_management.vehicle_repair_management</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_mobile">
+                    <field name="name"/>
+                    <field name="client_id"/>
+                    <field name="saved_vehicle_id"/>
+                    <field name="state"/>
+                    <field name="estimated_repair_untaxed_expenses"/>
+                    <field name="priority"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_kanban_record_top mb-2">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <strong><field name="estimated_repair_untaxed_expenses" widget="monetary"/></strong>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <div>
+                                        <strong>Client: </strong><field name="client_id"/>
+                                    </div>
+                                    <div>
+                                        <strong>Vehicle: </strong><field name="saved_vehicle_id"/>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom mt-2">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="priority" widget="priority"/>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="state" widget="label_selection" options="{'classes': {'draft': 'info', 'confirmed': 'primary', 'under_process': 'warning', 'done': 'success', 'cancel': 'danger'}}"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
         <!-- actions opening views on models -->
         <record model="ir.actions.act_window" id="vehicle_repair_management.action_window">
             <field name="name">Vehicle Service Work Order</field>
             <field name="res_model">vehicle_repair_management.vehicle_repair_management</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">kanban,tree,form</field>
         </record>
     </data>
 </odoo>

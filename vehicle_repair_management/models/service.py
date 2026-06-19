@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields
+from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class VehicleService(models.Model):
     _name = 'vehicle_repair_management.service'
@@ -24,3 +25,9 @@ class VehicleService(models.Model):
         ('price_values', 'price values'),
         ('free', 'free')
     ], string='Cost Type', default='fix')
+
+    @api.constrains('product_id')
+    def _check_product_id(self):
+        for rec in self:
+            if not rec.product_id:
+                raise ValidationError("Setiap Service wajib dihubungkan dengan sebuah Product agar bisa masuk ke dalam pelaporan Penjualan (Sales) dan Invoice.")

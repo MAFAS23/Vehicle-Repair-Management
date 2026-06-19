@@ -21,7 +21,7 @@
     'application': True,
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'hr', 'product'],
+    'depends': ['base', 'hr', 'product', 'sale_management', 'stock'],
 
     # always loaded
     'data': [

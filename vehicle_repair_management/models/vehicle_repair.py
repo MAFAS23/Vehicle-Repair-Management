@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
 from odoo import models, fields, api
+from odoo.exceptions import ValidationError
 
 class VehicleRepairManagement(models.Model):
     _name = 'vehicle_repair_management.vehicle_repair_management'
@@ -117,6 +117,51 @@ class VehicleRepairManagement(models.Model):
     def action_done(self):
         self.state = 'done'
         
+        SaleOrder = self.env['sale.order']
+        order_lines = []
+        
+        for ws in self.worksheet_line_ids:
+            if ws.service_id.product_id:
+                order_lines.append((0, 0, {
+                    'product_id': ws.service_id.product_id.id,
+                    'name': ws.description or ws.service_id.name,
+                    'product_uom_qty': ws.quantity,
+                    'price_unit': ws.cost,
+                }))
+        
+        for part in self.part_line_ids:
+            if part.product_id:
+                order_lines.append((0, 0, {
+                    'product_id': part.product_id.id,
+                    'name': part.description or part.product_id.name,
+                    'product_uom_qty': part.quantity,
+                    'price_unit': part.unit_price,
+                }))
+                
+        if order_lines:
+            # Lakukan pengecekan stok terakhir sebelum membuat SO
+            for line in order_lines:
+                product = self.env['product.product'].browse(line[2]['product_id'])
+                qty = line[2]['product_uom_qty']
+                if product.type == 'product' and product.qty_available < qty:
+                    raise ValidationError("Stok untuk produk '%s' tidak mencukupi! Tersedia: %s, Dibutuhkan: %s. Silakan restock terlebih dahulu." % (product.name, product.qty_available, qty))
+
+            so = SaleOrder.create({
+                'partner_id': self.client_id.id,
+                'origin': self.name,
+                'order_line': order_lines,
+            })
+            
+            so.action_confirm()
+            
+            for picking in so.picking_ids:
+                for move in picking.move_ids:
+                    move.quantity_done = move.product_uom_qty
+                picking.button_validate()
+            
+            invoice = so._create_invoices()
+            invoice.action_post()
+        
     def action_cancel(self):
         self.state = 'cancel'
 
@@ -141,9 +186,19 @@ class WorksheetLine(models.Model):
         for line in self:
             line.subtotal = line.cost * line.quantity
 
-    @api.onchange('service_id')
+    @api.onchange('service_id', 'quantity')
     def _onchange_service_id(self):
         if self.service_id:
+            # Cek stok secara live di layar (UI)
+            if self.service_id.product_id and self.service_id.product_id.type == 'product':
+                if self.service_id.product_id.qty_available < self.quantity:
+                    warning = {
+                        'title': 'Stok Tidak Mencukupi!',
+                        'message': 'Stok untuk barang %s tidak cukup (Tersisa: %s). Silakan kurangi Quantity atau restock terlebih dahulu.' % (self.service_id.product_id.name, self.service_id.product_id.qty_available)
+                    }
+                    self.quantity = self.service_id.product_id.qty_available
+                    return {'warning': warning}
+            
             self.cost_type = self.service_id.cost_type
             self.cost = self.service_id.price
             self.uom = self.service_id.unit
@@ -165,8 +220,18 @@ class PartLine(models.Model):
         for line in self:
             line.subtotal = line.quantity * line.unit_price
 
-    @api.onchange('product_id')
+    @api.onchange('product_id', 'quantity')
     def _onchange_product_id(self):
         if self.product_id:
+            # Cek stok secara live di layar (UI)
+            if self.product_id.type == 'product':
+                if self.product_id.qty_available < self.quantity:
+                    warning = {
+                        'title': 'Stok Tidak Mencukupi!',
+                        'message': 'Stok untuk barang %s tidak cukup (Tersisa: %s). Silakan kurangi Quantity atau restock terlebih dahulu.' % (self.product_id.name, self.product_id.qty_available)
+                    }
+                    self.quantity = self.product_id.qty_available
+                    return {'warning': warning}
+            
             self.description = self.product_id.name
             self.unit_price = self.product_id.lst_price
